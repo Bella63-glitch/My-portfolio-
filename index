@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bella | Web Developer Portfolio</title>
+  <style>
+    /* Color Palette */
+    :root {
+      --primary-color: #A00000; /* Darker Red */
+      --secondary-color: #D32F2F; /* Brighter Red for accents */
+      --text-color: #E0E0E0; /* Light Grey */
+      --accent-color: #0A0A0A; /* Deep Black */
+      --subtle-text-color: #888; /* Muted Grey */
+      --card-bg: #1A1A1A; /* Slightly lighter than accent for card backgrounds */
+      --gradient-start: #1A1A1A;
+      --gradient-end: #330000;
+    }
+
+    /* General Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--accent-color);
+      color: var(--text-color);
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 { font-family: 'Montserrat', sans-serif; }
+
+    /* Header & Navigation */
+    .header-nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 3rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .logo {
+      font-size: 1.7rem;
+      font-weight: bold;
+      color: var(--secondary-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo:hover { color: var(--text-color); }
+
+    .logo .role {
+        font-size: 1.2rem;
+        color: var(--subtle-text-color);
+        font-weight: 400;
+    }
+
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: var(--subtle-text-color);
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover { color: var(--text-color); }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: var(--secondary-color);
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after { width: 100%; }
+
+    .menu-toggle { display: none; font-size: 1.8rem; cursor: pointer; color: var(--text-color); }
+
+    @media(max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        background: var(--card-bg);
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 200px;
+        padding: 1rem;
+        border-left: 2px solid var(--primary-color);
+        box-shadow: -5px 5px 15px rgba(0,0,0,0.5);
+      }
+      .nav-links.active { display: flex; }
+      .menu-toggle { display: block; }
+
+      .logo .role {
+          display: none;
+      }
+    }
+
+    /* Hero */
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://i.postimg.cc/7PFtS9D9/b4073ae822c46bc169e18a42f49bba08.jpg');
+      background-size: cover;
+      background-position: center center;
+      filter: grayscale(60%) brightness(40%);
+      transform: scale(1);
+      animation: zoomIn 10s ease-out forwards;
+      will-change: transform;
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.05);
+      }
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      color: var(--text-color);
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      margin-bottom: 15px;
+      line-height: 1.2;
+      color: white;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      color: var(--subtle-text-color);
+      margin-bottom: 25px;
+      font-weight: 600;
+    }
+
+    .typed-text {
+      color: var(--secondary-color);
+      font-weight: bold;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--secondary-color);
+      color: var(--text-color);
+      padding: 12px 25px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-color);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4);
+    }
+
+    /* Sections */
+    section { padding: 100px 50px; }
+
+    .section-title {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 50px;
+      font-weight: 600;
+      position: relative;
+      color: var(--text-color);
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      width: 80px;
+      height: 4px;
+      background: var(--secondary-color);
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    /* About */
+    #about {
+        background-color: var(--card-bg);
+        background-image: url('https://www.transparenttextures.com/patterns/black-linen.png');
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .about-card {
+      background: var(--accent-color);
+      padding: 2.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .about-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .about-card h3 {
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+    }
+
+    .about-card .icon {
+      font-size: 3rem;
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+      display: inline-block;
+      animation: pulse 1s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    /* Projects */
+    #projects {
+        background-color: var(--accent-color);
+    }
+    .project-grid-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .project-filters {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--subtle-text-color);
+      color: var(--subtle-text-color);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--secondary-color);
+      color: var(--text-color);
+      border-color: var(--secondary-color);
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      transition: all 0.5s ease;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .project-card img, .project-card picture {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .project-card:hover img { transform: scale(1.05); }
+
+    .project-card-content { padding: 1.5rem; }
+
+    .project-card h3 {
+      color: var(--secondary-color);
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+    }
+
+    .project-links a {
+      display: inline-block;
+      margin-right: 1rem;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--text-color);
+      text-decoration: none;
+      border-bottom: 1px solid var(--subtle-text-color);
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .project-links a:hover {
+      color: var(--secondary-color);
+      border-color: var(--secondary-color);
+    }
+
+    /* Contact */
+    #contact { background-color: var(--card-bg); }
+
+    .contact-container {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-button {
+      background: var(--secondary-color);
+      color: var(--text-color);
+      padding: 12px 25px;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+
+    .contact-button:hover {
+      background: var(--primary-color);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4);
+    }
+
+    /* Updated button style for WhatsApp contact */
+    .contact-button i {
+      margin-right: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      background-color: var(--accent-color);
+      color: var(--subtle-text-color);
+      border-top: 1px solid var(--secondary-color);
+    }
+  </style>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;500&display=swap" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
+</head>
+<body>
+  <div class="header-nav">
+    <a href="#" class="logo">
+        <span class="typed-header"></span>
+        <span class="role">| Web Developer</span>
+    </a>
+    <div class="menu-toggle">☰</div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-background" id="hero-bg-parallax"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Building Digital Experiences. One Line of Code at a Time.</h1>
+      <p>Hi, I'm **Bella**. I design and build modern, high-performance websites that captivate audiences and drive results.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">View My Work</a>
+      </div>
+    </div>
+  </div>
+
+  <section id="about">
+    <h2 class="section-title">About Me</h2>
+    <div class="about-grid">
+      <div class="about-card">
+        <i class="fas fa-laptop-code icon"></i>
+        <h3>Passionate Coder</h3>
+        <p>I thrive on solving complex problems and building elegant, efficient solutions with clean, semantic code.</p>
+      </div>
+      <div class="about-card">
+        <i class="fas fa-drafting-compass icon"></i>
+        <h3>Design Enthusiast</h3>
+        <p>I blend aesthetic appeal with intuitive functionality, creating user-friendly designs that stand out.</p>
+      </div>
+      <div class="about-card">
+        <i class="fas fa-book-open icon"></i>
+        <h3>Lifelong Learner</h3>
+        <p>Committed to continuous growth, I constantly explore new technologies to deliver cutting-edge web experiences.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2 class="section-title">Projects</h2>
+    <div class="project-grid-container">
+      <div class="project-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="web-development">Web Development</button>
+        <button class="filter-btn" data-filter="e-commerce">E-commerce</button>
+        <button class="filter-btn" data-filter="graphics">Graphics</button>
+        <button class="filter-btn" data-filter="ai">AI</button>
+        <button class="filter-btn" data-filter="real-estate">Real Estate</button>
+      </div>
+      <div class="project-grid">
+        <div class="project-card" data-category="web-development">
+          <picture>
+            <source srcset="https://api.microlink.io/?url=https://runmeanerrand.co.ke&meta=false&screenshot=true&embed=screenshot.url" media="(min-width: 600px)">
+            <img src="https://api.microlink.io/?url=https://runmeanerrand.co.ke&meta=false&screenshot=true&embed=screenshot.url" alt="Screenshot of Run Me An Errand website" loading="lazy">
+          </picture>
+          <div class="project-card-content">
+            <h3>Run Me An Errand</h3>
+            <p>A service platform for quick, reliable errands in Kenya.</p>
+            <div class="project-links">
+              <a href="https://runmeanerrand.co.ke" target="_blank">Visit Site</a>
+            </div>
+          </div>
+        </div>
+        <div class="project-card" data-category="real-estate">
+          <picture>
+            <source srcset="https://api.microlink.io/?url=https://legacygenuineproperties.co.ke&meta=false&screenshot=true&embed=screenshot.url" media="(min-width: 600px)">
+            <img src="https://api.microlink.io/?url=https://legacygenuineproperties.co.ke&meta=false&screenshot=true&embed=screenshot.url" alt="Screenshot of Legacy Genuine Properties website" loading="lazy">
+          </picture>
+          <div class="project-card-content">
+            <h3>Legacy Genuine Properties</h3>
+            <p>A modern real estate platform showcasing property listings and services.</p>
+            <div class="project-links">
+              <a href="https://legacygenuineproperties.co.ke" target="_blank">Visit Site</a>
+            </div>
+          </div>
+        </div>
+        <div class="project-card" data-category="e-commerce">
+          <picture>
+            <source srcset="https://api.microlink.io/?url=https://askmyshoe.co.ke&meta=false&screenshot=true&embed=screenshot.url" media="(min-width: 600px)">
+            <img src="https://api.microlink.io/?url=https://askmyshoe.co.ke&meta=false&screenshot=true&embed=screenshot.url" alt="Screenshot of Ask My Shoe e-commerce store" loading="lazy">
+          </picture>
+          <div class="project-card-content">
+            <h3>Ask My Shoe</h3>
+            <p>An e-commerce store for stylish shoes with MPesa integration.</p>
+            <div class="project-links">
+              <a href="https://askmyshoe.co.ke" target="_blank">Visit Site</a>
+            </div>
+          </div>
+        </div>
+        <div class="project-card" data-category="graphics">
+          <picture>
+            <source srcset="https://api.microlink.io/?url=https://bella63-glitch.github.io/Visual-Ideas-Graphics/&meta=false&screenshot=true&embed=screenshot.url" media="(min-width: 600px)">
+            <img src="https://api.microlink.io/?url=https://bella63-glitch.github.io/Visual-Ideas-Graphics/&meta=false&screenshot=true&embed=screenshot.url" alt="Screenshot of Visual Ideas Graphics website" loading="lazy">
+          </picture>
+          <div class="project-card-content">
+            <h3>Visual Ideas Graphics</h3>
+            <p>A creative graphics portfolio website showcasing design projects.</p>
+            <div class="project-links">
+              <a href="https://bella63-glitch.github.io/Visual-Ideas-Graphics/" target="_blank">Visit Site</a>
+            </div>
+          </div>
+        </div>
+        <div class="project-card" data-category="real-estate">
+          <picture>
+            <source srcset="https://api.microlink.io/?url=http://legacygenuineproperties.co.ke/&meta=false&screenshot=true&embed=screenshot.url" media="(min-width: 600px)">
+            <img src="https://api.microlink.io/?url=http://legacygenuineproperties.co.ke/&meta=false&screenshot=true&embed=screenshot.url" alt="Screenshot of Legacy Genuine Properties (alt) website" loading="lazy">
+          </picture>
+          <div class="project-card-content">
+            <h3>Legacy Genuine Properties (Alt)</h3>
+            <p>An alternate property management portal for real estate solutions.</p>
+            <div class="project-links">
+              <a href="http://legacygenuineproperties.co.ke/" target="_blank">Visit Site</a>
+            </div>
+          </div>
+        </div>
+        <div class="project-card" data-category="real-estate">
+          <picture>
+            <source srcset="https://api.microlink.io/?url=https://chayim.co.ke/&meta=false&screenshot=true&embed=screenshot.url" media="(min-width: 600px)">
+            <img src="https://api.microlink.io/?url=https://chayim.co.ke/&meta=false&screenshot=true&embed=screenshot.url" alt="Screenshot of Chayim International website" loading="lazy">
+          </picture>
+          <div class="project-card-content">
+            <h3>Chayim International</h3>
+            <p>A premier property developer offering sustainable mortgage-based solutions.</p>
+            <div class="project-links">
+              <a href="https://chayim.co.ke/" target="_blank">Visit Site</a>
+            </div>
+          </div>
+        </div>
+        <div class="project-card" data-category="ai">
+          <picture>
+            <source srcset="https://api.microlink.io/?url=https://bella63-glitch.github.io/Image-Genius/&meta=false&screenshot=true&embed=screenshot.url" media="(min-width: 600px)">
+            <img src="https://api.microlink.io/?url=https://bella63-glitch.github.io/Image-Genius/&meta=false&screenshot=true&embed=screenshot.url" alt="Screenshot of Image Genius website" loading="lazy">
+          </picture>
+          <div class="project-card-content">
+            <h3>Image Genius</h3>
+            <p>An AI-powered image editor and creative tool.</p>
+            <div class="project-links">
+              <a href="https://bella63-glitch.github.io/Image-Genius/" target="_blank">Visit Site</a>
+            </div>
+          </div>
+        </div>
+        <div class="project-card" data-category="web-development">
+          <picture>
+            <source srcset="https://api.microlink.io/?url=https://bella63-glitch.github.io/National-star-investment-Co.Ltd/&meta=false&screenshot=true&embed=screenshot.url" media="(min-width: 600px)">
+            <img src="https://api.microlink.io/?url=https://bella63-glitch.github.io/National-star-investment-Co.Ltd/&meta=false&screenshot=true&embed=screenshot.url" alt="Screenshot of National Star Investment website" loading="lazy">
+          </picture>
+          <div class="project-card-content">
+            <h3>National Star Investment</h3>
+            <p>A corporate investment solutions website.</p>
+            <div class="project-links">
+              <a href="https://bella63-glitch.github.io/National-star-investment-Co.Ltd/" target="_blank">Visit Site</a>
+            </div>
+          </div>
+        </div>
+        <div class="project-card" data-category="web-development">
+          <picture>
+            <source srcset="https://api.microlink.io/?url=https://bella63-glitch.github.io/Jonathan-Law-Advocates-/&meta=false&screenshot=true&embed=screenshot.url" media="(min-width: 600px)">
+            <img src="https://api.microlink.io/?url=https://bella63-glitch.github.io/Jonathan-Law-Advocates-/&meta=false&screenshot=true&embed=screenshot.url" alt="Screenshot of Jonathan Law Advocates website" loading="lazy">
+          </picture>
+          <div class="project-card-content">
+            <h3>Jonathan Law Advocates</h3>
+            <p>A professional law firm website built for accessibility and trust.</p>
+            <div class="project-links">
+              <a href="https://bella63-glitch.github.io/Jonathan-Law-Advocates-/" target="_blank">Visit Site</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2 class="section-title">Let's Connect</h2>
+    <div class="contact-container">
+      <p>I'm open to new opportunities and collaborations. Let’s build something amazing together!</p>
+      <a href="https://wa.me/254797046378" target="_blank" class="contact-button">
+        <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Bella • Handcrafted with care
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Register the ScrollTrigger plugin
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Mobile menu toggle
+      const menuToggle = document.querySelector('.menu-toggle');
+      const navLinks = document.querySelector('.nav-links');
+      menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+
+      // Close mobile menu when a link is clicked
+      const navLinkItems = document.querySelectorAll('.nav-links a');
+      navLinkItems.forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+        });
+      });
+
+      // Typed.js for the header logo
+      const headerTypedOptions = {
+        strings: ['Bellah'],
+        typeSpeed: 70,
+        showCursor: false,
+        loop: false,
+      };
+      const headerTyped = new Typed('.typed-header', headerTypedOptions);
+
+      // GSAP Animations
+      gsap.from('.header-nav', { duration: 0.5, y: -50, opacity: 0, ease: 'power2.inOut' });
+      gsap.from('.hero-content h1', { duration: 0.8, y: -50, opacity: 0, ease: 'power2.out', delay: 0.2 });
+      gsap.from('.hero-content p', { duration: 0.8, y: -30, opacity: 0, ease: 'power2.out', delay: 0.6 });
+      gsap.from('.hero-actions a', { duration: 0.8, opacity: 0, y: 20, stagger: 0.3, ease: 'power2.out', delay: 1.5 });
+
+      // Hero background parallax
+      gsap.to("#hero-bg-parallax", {
+        backgroundPositionY: "top",
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".hero",
+          start: "top top",
+          end: "bottom top",
+          scrub: true
+        }
+      });
+
+      // Animate section titles on scroll
+      gsap.utils.toArray(".section-title").forEach(title => {
+        gsap.from(title, {
+          y: 50,
+          opacity: 0,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: title,
+            start: "top 85%",
+            toggleActions: "play none none none",
+            once: true
+          }
+        });
+      });
+
+      // Animate About cards on scroll (staggered)
+      gsap.from(".about-card", {
+        y: 50,
+        opacity: 0,
+        stagger: 0.2,
+        duration: 0.8,
+        ease: "back.out(1.7)",
+        scrollTrigger: {
+          trigger: "#about",
+          start: "top 75%",
+            toggleActions: "play none none none",
+            once: true
+        }
+      });
+
+      // Animate project cards on scroll (staggered)
+      gsap.from(".project-card", {
+        y: 50,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 0.7,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".project-grid",
+          start: "top 85%",
+          toggleActions: "play none none none",
+          once: true
+        }
+      });
+
+      // Animate Contact section elements
+      gsap.from(".contact-container p, .contact-container .contact-button", {
+        y: 30,
+        opacity: 0,
+        stagger: 0.3,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#contact",
+          start: "top 75%",
+          toggleActions: "play none none none",
+          once: true
+        }
+      });
+
+      // Project filter functionality
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const allProjectCards = document.querySelectorAll('.project-card');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const filter = btn.getAttribute('data-filter');
+
+          gsap.to(allProjectCards, {
+            duration: 0.3,
+            opacity: 0,
+            scale: 0.95,
+            onComplete: () => {
+              allProjectCards.forEach(card => {
+                if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                  card.style.display = 'block';
+                } else {
+                  card.style.display = 'none';
+                }
+              });
+              const visibleCards = Array.from(allProjectCards).filter(card => card.style.display !== 'none');
+              gsap.to(visibleCards, {
+                duration: 0.5,
+                opacity: 1,
+                scale: 1,
+                stagger: 0.1,
+                ease: 'back.out(1.7)'
+              });
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
